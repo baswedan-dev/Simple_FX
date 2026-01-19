@@ -1,0 +1,32 @@
+# Currency pairs confirmed working with Polygon.io free tier
+# Successfully tested on 2026-01-17 with 624 records each (2 years of data)
+pairs:
+  - EUR/USD  # Major pair
+  - GBP/USD  # Major pair
+  - USD/JPY  # Major pair
+  - USD/CHF  # Major pair
+  - AUD/USD  # Major pair
+  - EUR/JPY  # Cross pair
+  - GBP/JPY  # Cross pair
+  # USD/CAD
+  # NZD/USD
+  # EUR/GBP
+  - AUD/CAD
+  - AUD/CHF
+  # AUD/JPY
+  # AUD/NZD
+  - CAD/CHF
+  # CAD/JPY
+  # CHF/JPY
+  - EUR/AUD
+  - EUR/CAD
+  - EUR/CHF
+  - EUR/NZD
+  # GBP/AUD
+  # GBP/CAD
+  - GBP/CHF
+  - GBP/NZD
+  - NZD/CAD
+  - NZD/CHF
+  # NZD/JPY
+

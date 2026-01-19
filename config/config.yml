@@ -1,0 +1,17 @@
+version: 1.0.0
+environment: development
+
+data:
+  source: polygon
+  api_key: ${POLYGON_API_KEY}
+  cache_enabled: true
+  cache_ttl_hours: 24
+  max_gap_forward_fill: 2
+  validation:
+    max_gap_pct: 5.0
+    min_data_days: 30
+
+logging:
+  level: INFO
+  format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  file: logs/phase1_data.log
