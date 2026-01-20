@@ -5,13 +5,28 @@ data:
   source: polygon
   api_key: ${POLYGON_API_KEY}
   cache_enabled: true
+  cache_dir: data/raw  # Added: no longer hardcoded in code
   cache_ttl_hours: 24
   max_gap_forward_fill: 2
   validation:
     max_gap_pct: 5.0
-    min_data_days: 30
+    min_data_days: 30  # Fixed: consistent naming with code
 
 logging:
   level: INFO
   format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
   file: logs/phase1_data.log
+
+# Phase 1 specific settings
+phase1:
+  # Data fetching parameters
+  default_lookback_years: 2  # Default historical data range
+  
+  # Expected trading days per year (for coverage validation)
+  # ~252 trading days/year, so 2 years ≈ 504 days
+  expected_trading_days_per_year: 252
+  
+  # Alert thresholds
+  alerts:
+    consecutive_delayed_api_responses: 3  # Alert if >=3 DELAYED responses
+    min_coverage_pct: 90  # Minimum acceptable data coverage %
