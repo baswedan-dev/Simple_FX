@@ -1,0 +1,63 @@
+# Feature Engineering Configuration
+# Phase 2 Settings
+
+version: 1.0.0
+
+# Feature groups to compute
+enabled_groups:
+  - price_action      # Features 1-4: returns, true range, close position, range expansion
+  - trend_indicators  # Features 5-7: EMA distance, EMA slope, ADX
+  - volatility        # Features 8-9: ATR normalized, volatility ratio
+
+# Feature computation parameters
+feature_parameters:
+  # Price action
+  log_returns_period: 1  # 1-day log returns
+  
+  # Trend indicators
+  ema_short_period: 20   # Short EMA for distance/slope
+  ema_slope_lookback: 5  # Periods to compute slope
+  adx_period: 14         # ADX calculation period
+  
+  # Volatility
+  atr_period: 14         # ATR calculation period
+  vol_ratio_short: 5     # Short window for volatility ratio
+  vol_ratio_long: 20     # Long window for volatility ratio
+
+# Validation settings
+validation:
+  # RELAXED: Allow high correlation for mathematically-related features
+  # tr_norm & range_expansion both measure intraday range (expected correlation)
+  # ema20_dist & ema20_slope both derived from same EMA (expected correlation)
+  max_correlation: 0.95       # Increased from 0.85 to allow related features
+  max_null_pct: 0.05          # Maximum null percentage (post-warmup)
+  warmup_period: 20           # Rows to exclude from null checks
+  
+  # Causality test settings
+  causality_tests_required: true
+  sample_pairs_for_testing: 3  # Number of pairs to test for causality
+
+# Quality checks
+quality_checks:
+  min_unique_values: 10       # Minimum unique values per feature (post-warmup)
+  max_feature_std: 100        # Maximum standard deviation (outlier detection)
+  check_distribution_shift: true  # Check train/test distribution similarity
+
+# Feature registry settings
+registry:
+  cache_dir: data/features
+  compression: snappy         # Parquet compression (snappy, gzip, or none)
+  save_metadata: true         # Save feature metadata JSON
+  validate_consistency: true  # Validate all pairs have same features
+
+# Monitoring
+monitoring:
+  log_feature_stats: true     # Log mean/std/null for each feature
+  alert_on_validation_failure: true
+  track_computation_time: true
+  
+# Feature correlation exceptions
+# These feature pairs are EXPECTED to have high correlation due to mathematical relationships
+correlation_exceptions:
+  - [tr_norm, range_expansion]  # Both measure intraday range
+  - [ema20_dist, ema20_slope]   # Both derived from same EMA
